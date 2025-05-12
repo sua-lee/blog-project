@@ -7,7 +7,7 @@ import AboutPage from './pages/AboutPage';
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col items-center ">
       <Routes>
         <Route path="/" element={<MemberLayout />}>
           <Route index element={<MainPage />} />

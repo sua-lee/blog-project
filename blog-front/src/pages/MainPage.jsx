@@ -1,6 +1,20 @@
 import whaleImage from '../assets/whale.png';
+import { useEffect } from 'react';
+import { useGetIsLoggedInQuery } from '../features/protectedApi'; // ← 정확한 경로 확인
 
 export default function MainPage() {
+  const { data, error, isLoading, isSuccess } = useGetIsLoggedInQuery();
+
+  useEffect(() => {
+    if (isLoading) {
+      console.log('🔄 isLoggedIn: 요청 중...');
+    } else if (isSuccess) {
+      console.log('✅ isLoggedIn 응답 데이터:', data);
+    } else if (error) {
+      console.error('❌ isLoggedIn 에러:', error);
+    }
+  }, [data, error, isLoading, isSuccess]);
+
   return (
     <main className="flex justify-between items-center px-20 py-24">
       {/* Text content */}
@@ -12,7 +26,7 @@ export default function MainPage() {
           당신의 이야기가 머무는 공간, 지금 바로 시작하세요.
         </p>
         <button className="bg-black text-white px-6 py-2 rounded ">
-          Discover More
+          글 작성하기
         </button>
       </div>
 
