@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useGetIsLoggedInQuery } from '../features/protectedApi';
 import { useSelector } from 'react-redux';
 
-export function NavBar() {
+export default function HeaderBoard() {
   // Redux에서 accessToken 가져오기
   const accessToken = useSelector((state) => state.auth.accessToken);
 
@@ -13,22 +13,24 @@ export function NavBar() {
   });
   const isLoggedIn = data?.email !== undefined;
   return (
-    <nav className="right-0 flex justify-center items-center w-1/3 p-3 gap-3">
-      <NavLink to="/" end className="flex-1 text-center">
-        Main
-      </NavLink>
-      <NavLink to="/about" end className="flex-1 text-center">
-        About
-      </NavLink>
+    <div className="flex justify-between items-center px-3 mt-2 fixed top-0 w-5/6">
+      <div className="w-1/5 flex justify-center p-3 gap-3 items-center">
+        <NavLink to="/" end>
+          <img src="/logo.svg" alt="Logo" className="w-8 h-8" />
+        </NavLink>
+        <NavLink to="/" end className="flex-1 text-left font-bold">
+          Wave Blog
+        </NavLink>
+      </div>
       {isLoading ? null : isLoggedIn ? (
-        <p className="flex-1 text-center text-gray-800 font-medium p-3">
+        <p className="flex-1 text-right text-gray-800 font-medium p-3">
           {data.email}
         </p>
       ) : (
-        <NavLink to="/login" end className="flex-1 text-center p-3">
+        <NavLink to="/login" end className="flex-1 text-right p-3">
           Log In
         </NavLink>
       )}
-    </nav>
+    </div>
   );
 }

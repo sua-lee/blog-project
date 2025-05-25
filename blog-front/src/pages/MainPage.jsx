@@ -12,7 +12,7 @@ export default function MainPage() {
 
   const handleClick = () => {
     if (accessToken) {
-      navigate('/post/create');
+      navigate('/board/create');
     } else {
       navigate('/login');
     }

@@ -1,10 +1,12 @@
 import { Routes, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import MemberLayout from './layouts/MemberLayout';
+import BoardLayout from './layouts/BoardLayout';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
 import PostListPage from './pages/PostListPage';
+import CreatingArticlePage from './pages/CreatingArticlePage';
 
 function App() {
   return (
@@ -16,6 +18,10 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/posts" element={<PostListPage />} />
+          <Route path='/create' element={<CreatingArticlePage/>}/>
+        </Route>
+        <Route path="/board" element={<BoardLayout />}>
+          <Route path="create" element={<CreatingArticlePage />} />
         </Route>
       </Routes>
     </div>
