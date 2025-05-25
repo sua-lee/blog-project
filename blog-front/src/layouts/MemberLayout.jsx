@@ -6,7 +6,7 @@ export default function MemberLayout() {
   return (
     <div className="min-h-screen flex flex-col justify-center w-5/6">
       <HeaderMember />
-      <div className="pt-16">
+      <div className="pt-16 min-h-screen flex flex-col justify-center items-center">
         <Outlet />
       </div>
       <Footer />

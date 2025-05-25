@@ -86,7 +86,20 @@ export const protectedApi = createApi({
     getIsLoggedIn: builder.query({
       query: () => '/',
     }),
+
+    // 게시글 생성 API
+    createPost: builder.mutation({
+      query: (postData) => ({
+        url: '/api/board',
+        method: 'POST',
+        body: postData,
+      }),
+    }),
   }),
 });
 
-export const { useGetAdminQuery, useGetIsLoggedInQuery } = protectedApi;
+export const {
+  useGetAdminQuery,
+  useGetIsLoggedInQuery,
+  useCreatePostMutation,
+} = protectedApi;
