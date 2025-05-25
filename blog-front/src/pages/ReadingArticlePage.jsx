@@ -1,9 +1,14 @@
-import { useParams } from 'react-router-dom';
-import { useGetPostByIdQuery } from '../features/protectedApi';
+import { useParams, useNavigate } from 'react-router-dom';
+import {
+  useGetPostByIdQuery,
+  useDeletePostMutation,
+} from '../features/protectedApi';
 
 export default function PostReadingPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data, error, isLoading } = useGetPostByIdQuery(id);
+  const [deletePost] = useDeletePostMutation();
 
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>오류 발생: {error.message}</p>;
@@ -18,13 +23,35 @@ export default function PostReadingPage() {
     comments = [],
   } = data;
 
+  const handleDelete = async () => {
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
+
+    try {
+      const response = await deletePost(id).unwrap();
+      alert(response.message); // "게시글이 삭제되었습니다."
+      navigate('/'); // 삭제 후 목록 페이지 등으로 이동
+    } catch (err) {
+      alert(err.data?.error || '삭제 중 오류가 발생했습니다.');
+    }
+  };
+
   return (
     <div className="w-3xl mx-auto p-4 min-h-screen">
       <h1 className="text-3xl font-bold">{title}</h1>
       <p className="text-sm text-gray-600 mt-1">
         작성자: {nickname} | 작성일: {new Date(createdAt).toLocaleString()}
       </p>
-      <div className="mt-6 prose min-h-[50vh]">{content}</div>
+      <div className="mt-6 prose min-h-[50vh] prose whitespace-pre-wrap">
+        {content}
+      </div>
+      <div className="pt-5">
+        <button
+          onClick={handleDelete}
+          className="text-sm text-white bg-gray-700 hover:bg-blue-300 px-3 py-1 rounded"
+        >
+          삭제
+        </button>
+      </div>
       <div className="mt-2 text-sm text-gray-500">
         조회수: {viewCount} | 좋아요: {likeCount}
       </div>

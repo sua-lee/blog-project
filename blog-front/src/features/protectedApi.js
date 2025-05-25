@@ -100,6 +100,16 @@ export const protectedApi = createApi({
     getPostById: builder.query({
       query: (id) => `/api/board/${id}`,
     }),
+
+    // 게시글 삭제 API
+    deletePost: builder.mutation({
+      query: (id) => ({
+        url: `/api/board/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+
+    // 게시글 수정 API
   }),
 });
 
@@ -108,4 +118,5 @@ export const {
   useGetIsLoggedInQuery,
   useCreatePostMutation,
   useGetPostByIdQuery,
+  useDeletePostMutation,
 } = protectedApi;
