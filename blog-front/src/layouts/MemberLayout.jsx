@@ -4,7 +4,7 @@ import HeaderMember from '../components/HeaderMember';
 
 export default function MemberLayout() {
   return (
-    <div className="flex flex-col justify-center w-5/6">
+    <div className="min-h-screen flex flex-col justify-center w-5/6">
       <HeaderMember />
       <Outlet />
       <Footer />

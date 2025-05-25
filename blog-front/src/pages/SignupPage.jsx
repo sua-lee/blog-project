@@ -33,7 +33,7 @@ export default function SignupPage() {
   };
 
   return (
-    <main className="flex flex-col items-center px-6 py-16">
+    <main className="flex flex-col items-center px-6 py-16 flex-1">
       <h1 className="text-3xl font-bold mb-12">Sign Up</h1>
 
       <form className="w-full max-w-md space-y-6" onSubmit={handleSubmit}>

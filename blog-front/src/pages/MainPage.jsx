@@ -1,9 +1,22 @@
 import whaleImage from '../assets/whale.png';
 import { useEffect } from 'react';
 import { useGetIsLoggedInQuery } from '../features/protectedApi'; // ← 정확한 경로 확인
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function MainPage() {
   const { data, error, isLoading, isSuccess } = useGetIsLoggedInQuery();
+
+  const navigate = useNavigate();
+  const accessToken = useSelector((state) => state.auth.accessToken);
+
+  const handleClick = () => {
+    if (accessToken) {
+      navigate('/post/create');
+    } else {
+      navigate('/login');
+    }
+  };
 
   useEffect(() => {
     if (isLoading) {
@@ -16,7 +29,7 @@ export default function MainPage() {
   }, [data, error, isLoading, isSuccess]);
 
   return (
-    <main className="flex justify-between items-center px-20 py-24">
+    <main className="flex-1 flex justify-between px-20 py-24">
       {/* Text content */}
       <div className="w-1/2">
         <h1 className="text-4xl font-bold leading-tight mb-6">
@@ -25,7 +38,10 @@ export default function MainPage() {
         <p className="text-gray-600 mb-8">
           당신의 이야기가 머무는 공간, 지금 바로 시작하세요.
         </p>
-        <button className="bg-black text-white px-6 py-2 rounded ">
+        <button
+          className="bg-black text-white px-6 py-2 rounded "
+          onClick={handleClick}
+        >
           글 작성하기
         </button>
       </div>

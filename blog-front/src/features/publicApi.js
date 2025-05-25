@@ -31,7 +31,12 @@ export const publicApi = createApi({
         method: 'POST',
         body: { refreshToken },
       }),
-    })
+    }),
+
+    // 4. 태그 검색
+    getPostsByTag: builder.query({
+      query: (tag) => `/board/tags?name=${encodeURIComponent(tag)}`,
+    }),
   }),
 });
 
@@ -40,4 +45,5 @@ export const {
   useLoginMutation,
   useSignupMutation,
   useRefreshTokenMutation,
+  useGetPostsByTagQuery,
 } = publicApi;

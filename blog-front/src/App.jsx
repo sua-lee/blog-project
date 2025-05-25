@@ -4,6 +4,7 @@ import MemberLayout from './layouts/MemberLayout';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
+import PostListPage from './pages/PostListPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/posts" element={<PostListPage />} />
         </Route>
       </Routes>
     </div>
