@@ -7,6 +7,7 @@ import SignupPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
 import PostListPage from './pages/PostListPage';
 import CreatingArticlePage from './pages/CreatingArticlePage';
+import ReadingArticlePage from './pages/ReadingArticlePage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         </Route>
         <Route path="/board" element={<BoardLayout />}>
           <Route path="create" element={<CreatingArticlePage />} />
+          <Route path="reading/:id" element={<ReadingArticlePage />} />
         </Route>
       </Routes>
     </div>

@@ -6,7 +6,7 @@ export default function BoardLayout() {
   return (
     <div className="min-h-screen flex flex-col justify-center w-5/6">
       <HeaderBoard />
-      <div className="pt-16 min-h-screen flex flex-col justify-center items-center">
+      <div className="pt-32 min-h-screen flex flex-col items-center">
         <Outlet />
       </div>
       <Footer />

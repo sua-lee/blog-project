@@ -95,6 +95,11 @@ export const protectedApi = createApi({
         body: postData,
       }),
     }),
+
+    // 게시글 조회 API
+    getPostById: builder.query({
+      query: (id) => `/api/board/${id}`,
+    }),
   }),
 });
 
@@ -102,4 +107,5 @@ export const {
   useGetAdminQuery,
   useGetIsLoggedInQuery,
   useCreatePostMutation,
+  useGetPostByIdQuery,
 } = protectedApi;
