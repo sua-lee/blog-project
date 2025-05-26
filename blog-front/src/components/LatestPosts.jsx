@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LastestPosts() {
   const navigate = useNavigate();
-  const { data, error, isLoading } = useGetPostListQuery(1); // id는 임의 값
+  const { data, error, isLoading } = useGetPostListQuery(1, {
+    refetchOnMountOrArgChange: true,
+  }); // id는 임의 값
 
-  if (isLoading) return <p>로딩 중...</p>;
-  if (error) return <p>오류 발생: {error.message}</p>;
+  if (isLoading) return <p className="text-center">로딩 중...</p>;
+  if (error) return <p className="text-center">오류 발생: {error.message}</p>;
 
   const posts = data?.boards
     ?.filter((post) => post.title)

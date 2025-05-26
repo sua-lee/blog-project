@@ -7,7 +7,7 @@ import LastestPosts from '../components/LatestPosts';
 
 export default function MainPage() {
   const { data, error, isLoading, isSuccess } = useGetIsLoggedInQuery();
-
+  const isLoggedIn = !!data?.email;
   const navigate = useNavigate();
   const accessToken = useSelector((state) => state.auth.accessToken);
 
@@ -53,9 +53,17 @@ export default function MainPage() {
       </section>
       <section className="p-5 mt-24">
         <h1 className="text-3xl text-center font-semibold p-5">Latest Posts</h1>
-        <section className="max-w-5xl fade-scroll-wrapper">
-          <LastestPosts />
-        </section>
+        {isLoading ? (
+          <p className="text-center text-gray-500">로딩 중...</p>
+        ) : data?.email ? (
+          <section className="max-w-5xl fade-scroll-wrapper">
+            <LastestPosts />
+          </section>
+        ) : (
+          <div className="text-center text-gray-500 py-10">
+            로그인 시 이용 가능한 콘텐츠입니다.
+          </div>
+        )}
       </section>
     </main>
   );
