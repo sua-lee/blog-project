@@ -117,6 +117,11 @@ export const protectedApi = createApi({
         body: { title, content },
       }),
     }),
+
+    // 글 목록 조회 API
+    getPostList: builder.query({
+      query: (id = 1) => `/api/board/${id}/list`,
+    }),
   }),
 });
 
@@ -127,4 +132,5 @@ export const {
   useGetPostByIdQuery,
   useDeletePostMutation,
   useUpdatePostMutation,
+  useGetPostListQuery,
 } = protectedApi;
