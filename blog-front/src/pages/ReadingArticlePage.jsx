@@ -3,11 +3,14 @@ import {
   useGetPostByIdQuery,
   useDeletePostMutation,
 } from '../features/protectedApi';
+import MDEditor from '@uiw/react-md-editor';
 
 export default function PostReadingPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data, error, isLoading } = useGetPostByIdQuery(id);
+  const { data, error, isLoading } = useGetPostByIdQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
   const [deletePost] = useDeletePostMutation();
 
   if (isLoading) return <p>로딩 중...</p>;
@@ -29,10 +32,14 @@ export default function PostReadingPage() {
     try {
       const response = await deletePost(id).unwrap();
       alert(response.message); // "게시글이 삭제되었습니다."
-      navigate('/'); // 삭제 후 목록 페이지 등으로 이동
+      navigate('/');
     } catch (err) {
       alert(err.data?.error || '삭제 중 오류가 발생했습니다.');
     }
+  };
+
+  const handleUpdate = async () => {
+    navigate(`/board/updating/${id}`);
   };
 
   return (
@@ -41,15 +48,24 @@ export default function PostReadingPage() {
       <p className="text-sm text-gray-600 mt-1">
         작성자: {nickname} | 작성일: {new Date(createdAt).toLocaleString()}
       </p>
-      <div className="mt-6 prose min-h-[50vh] prose whitespace-pre-wrap">
-        {content}
+      <div className="mt-6 min-h-[50vh]">
+        <MDEditor.Markdown
+          source={content}
+          style={{ whiteSpace: 'pre-wrap' }}
+        />
       </div>
-      <div className="pt-5">
+      <div className="pt-5 flex space-x-3">
         <button
           onClick={handleDelete}
           className="text-sm text-white bg-gray-700 hover:bg-blue-300 px-3 py-1 rounded"
         >
           삭제
+        </button>
+        <button
+          onClick={handleUpdate}
+          className="text-sm text-white bg-gray-700 hover:bg-blue-300 px-3 py-1 rounded"
+        >
+          수정
         </button>
       </div>
       <div className="mt-2 text-sm text-gray-500">

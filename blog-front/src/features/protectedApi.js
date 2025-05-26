@@ -110,6 +110,13 @@ export const protectedApi = createApi({
     }),
 
     // 게시글 수정 API
+    updatePost: builder.mutation({
+      query: ({ id, title, content }) => ({
+        url: `/api/board/${id}`,
+        method: 'PUT',
+        body: { title, content },
+      }),
+    }),
   }),
 });
 
@@ -119,4 +126,5 @@ export const {
   useCreatePostMutation,
   useGetPostByIdQuery,
   useDeletePostMutation,
+  useUpdatePostMutation,
 } = protectedApi;

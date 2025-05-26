@@ -8,6 +8,7 @@ import AboutPage from './pages/AboutPage';
 import PostListPage from './pages/PostListPage';
 import CreatingArticlePage from './pages/CreatingArticlePage';
 import ReadingArticlePage from './pages/ReadingArticlePage';
+import UpdatingArticlePage from './pages/UpdatingArticlePage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/board" element={<BoardLayout />}>
           <Route path="create" element={<CreatingArticlePage />} />
           <Route path="reading/:id" element={<ReadingArticlePage />} />
+          <Route path="updating/:id" element={<UpdatingArticlePage />} />
         </Route>
       </Routes>
     </div>
