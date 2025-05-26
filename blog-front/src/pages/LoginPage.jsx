@@ -41,7 +41,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex flex-col items-center px-6 py-16">
+    <main className="flex flex-col items-center px-6 py-16 flex-1 w-5/6">
       <h1 className="text-3xl font-bold mb-12">Login</h1>
 
       <form className="w-full max-w-md space-y-6" onSubmit={handleSubmit}>
