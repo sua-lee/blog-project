@@ -122,6 +122,14 @@ export const protectedApi = createApi({
     getPostList: builder.query({
       query: (id = 1) => `/api/board/${id}/list`,
     }),
+
+    // 좋아요
+    likePost: builder.mutation({
+      query: (id) => ({
+        url: `/api/board/${id}/like`,
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -133,4 +141,5 @@ export const {
   useDeletePostMutation,
   useUpdatePostMutation,
   useGetPostListQuery,
+  useLikePostMutation,
 } = protectedApi;

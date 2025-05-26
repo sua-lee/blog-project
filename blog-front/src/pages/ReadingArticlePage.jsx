@@ -2,16 +2,18 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   useGetPostByIdQuery,
   useDeletePostMutation,
+  useLikePostMutation,
 } from '../features/protectedApi';
 import MDEditor from '@uiw/react-md-editor';
 
 export default function PostReadingPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data, error, isLoading } = useGetPostByIdQuery(id, {
+  const { data, error, isLoading, refetch } = useGetPostByIdQuery(id, {
     refetchOnMountOrArgChange: true,
   });
   const [deletePost] = useDeletePostMutation();
+  const [likePost] = useLikePostMutation();
 
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>오류 발생: {error.message}</p>;
@@ -42,34 +44,52 @@ export default function PostReadingPage() {
     navigate(`/board/updating/${id}`);
   };
 
+  const handleLike = async () => {
+    try {
+      const res = await likePost(id).unwrap();
+      console.log('좋아요 성공:', res);
+      refetch();
+    } catch (error) {
+      console.error('좋아요 실패:', error);
+      alert('좋아요 실패');
+    }
+  };
+
   return (
     <div className="w-3xl mx-auto p-4 min-h-screen">
       <h1 className="text-3xl font-bold">{title}</h1>
       <p className="text-sm text-gray-600 mt-1">
         작성자: {nickname} | 작성일: {new Date(createdAt).toLocaleString()}
       </p>
+      <div className="pt-5 flex space-x-3">
+        <button
+          onClick={handleDelete}
+          className="text-sm  outline-1 outline-gray-600 hover:bg-gray-400 px-3 py-1 rounded"
+        >
+          삭제
+        </button>
+        <button
+          onClick={handleUpdate}
+          className="text-sm outline-1 outline-gray-600 hover:bg-gray-400 px-3 py-1 rounded"
+        >
+          수정
+        </button>
+      </div>
       <div className="mt-6 min-h-[50vh]">
         <MDEditor.Markdown
           source={content}
           style={{ whiteSpace: 'pre-wrap' }}
         />
       </div>
-      <div className="pt-5 flex space-x-3">
+      <div className="mt-4 text-sm text-gray-500 flex items-center gap-4">
+        <span>조회수: {viewCount}</span>
+        <span>좋아요: {likeCount}</span>
         <button
-          onClick={handleDelete}
-          className="text-sm text-white bg-gray-700 hover:bg-blue-300 px-3 py-1 rounded"
+          onClick={handleLike}
+          className="text-sm text-red-500 border border-red-400 px-2 py-1 rounded hover:bg-red-100 transition"
         >
-          삭제
+          ❤️ 좋아요
         </button>
-        <button
-          onClick={handleUpdate}
-          className="text-sm text-white bg-gray-700 hover:bg-blue-300 px-3 py-1 rounded"
-        >
-          수정
-        </button>
-      </div>
-      <div className="mt-2 text-sm text-gray-500">
-        조회수: {viewCount} | 좋아요: {likeCount}
       </div>
 
       <div className="mt-10">
