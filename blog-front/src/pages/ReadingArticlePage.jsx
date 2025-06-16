@@ -4,16 +4,21 @@ import {
   useDeletePostMutation,
   useLikePostMutation,
 } from '../features/protectedApi';
+import { useSelector } from 'react-redux';
 import MDEditor from '@uiw/react-md-editor';
+import TagManager from '../components/TagManager';
 
 export default function PostReadingPage() {
   const { id } = useParams();
+  const postId = Number(id); // 형변환 추가
+
   const navigate = useNavigate();
-  const { data, error, isLoading, refetch } = useGetPostByIdQuery(id, {
+  const { data, error, isLoading, refetch } = useGetPostByIdQuery(postId, {
     refetchOnMountOrArgChange: true,
   });
   const [deletePost] = useDeletePostMutation();
   const [likePost] = useLikePostMutation();
+  const currentNickname = useSelector((state) => state.auth.nickname);
 
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>오류 발생: {error.message}</p>;
@@ -26,7 +31,11 @@ export default function PostReadingPage() {
     viewCount,
     likeCount,
     comments = [],
+    tags = [],
   } = data;
+
+  console.log(data);
+  console.log(data.tags);
 
   const handleDelete = async () => {
     if (!window.confirm('정말 삭제하시겠습니까?')) return;
@@ -61,26 +70,30 @@ export default function PostReadingPage() {
       <p className="text-sm text-gray-600 mt-1">
         작성자: {nickname} | 작성일: {new Date(createdAt).toLocaleString()}
       </p>
-      <div className="pt-5 flex space-x-3">
-        <button
-          onClick={handleDelete}
-          className="text-sm  outline-1 outline-gray-600 hover:bg-gray-400 px-3 py-1 rounded"
-        >
-          삭제
-        </button>
-        <button
-          onClick={handleUpdate}
-          className="text-sm outline-1 outline-gray-600 hover:bg-gray-400 px-3 py-1 rounded"
-        >
-          수정
-        </button>
-      </div>
+      {currentNickname === nickname && (
+        <div className="pt-5 flex space-x-3">
+          <button
+            onClick={handleDelete}
+            className="text-sm  outline-1 outline-gray-600 hover:bg-gray-400 px-3 py-1 rounded"
+          >
+            삭제
+          </button>
+          <button
+            onClick={handleUpdate}
+            className="text-sm outline-1 outline-gray-600 hover:bg-gray-400 px-3 py-1 rounded"
+          >
+            수정
+          </button>
+        </div>
+      )}
+
       <div className="mt-6 min-h-[50vh]">
         <MDEditor.Markdown
           source={content}
           style={{ whiteSpace: 'pre-wrap' }}
         />
       </div>
+      {currentNickname === nickname && <TagManager postId={id} />}
       <div className="mt-4 text-sm text-gray-500 flex items-center gap-4">
         <span>조회수: {viewCount}</span>
         <span>좋아요: {likeCount}</span>

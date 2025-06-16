@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import PostCard from '../components/PostCard';
-import { useGetPostsByTagQuery } from '../features/publicApi';
+import { useGetPostsByTagQuery } from '../features/protectedApi';
 
 const PostListPage = () => {
   const [searchParams] = useSearchParams();

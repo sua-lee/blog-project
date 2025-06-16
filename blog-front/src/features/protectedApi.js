@@ -130,6 +130,20 @@ export const protectedApi = createApi({
         method: 'POST',
       }),
     }),
+
+    // 태그 추가
+    addTagsToPost: builder.mutation({
+      query: ({ id, tags }) => ({
+        url: `/api/board/${id}/tags`,
+        method: 'POST',
+        body: tags, // ✅ 백엔드에서 List<String>으로 받으므로 배열만 전송
+      }),
+    }),
+
+    // 태그 검색
+    getPostsByTag: builder.query({
+      query: (tagName) => `/api/board/tags?name=${encodeURIComponent(tagName)}`,
+    }),
   }),
 });
 
@@ -142,4 +156,6 @@ export const {
   useUpdatePostMutation,
   useGetPostListQuery,
   useLikePostMutation,
+  useAddTagsToPostMutation,
+  useGetPostsByTagQuery,
 } = protectedApi;

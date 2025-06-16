@@ -52,7 +52,9 @@ export default function MainPage() {
         <img src={whaleImage} alt="whale" className="w-1/2 h-64 rounded-3xl" />
       </section>
       <section className="p-5 mt-24">
-        <h1 className="text-3xl text-center font-semibold p-5">Latest Posts</h1>
+        <h1 className="text-3xl text-center font-semibold p-5">
+          10 Latest Posts
+        </h1>
         {isLoading ? (
           <p className="text-center text-gray-500">로딩 중...</p>
         ) : data?.email ? (
