@@ -86,7 +86,76 @@ export const protectedApi = createApi({
     getIsLoggedIn: builder.query({
       query: () => '/',
     }),
+
+    // 게시글 생성 API
+    createPost: builder.mutation({
+      query: (postData) => ({
+        url: '/api/board',
+        method: 'POST',
+        body: postData,
+      }),
+    }),
+
+    // 게시글 조회 API
+    getPostById: builder.query({
+      query: (id) => `/api/board/${id}`,
+    }),
+
+    // 게시글 삭제 API
+    deletePost: builder.mutation({
+      query: (id) => ({
+        url: `/api/board/${id}`,
+        method: 'DELETE',
+      }),
+    }),
+
+    // 게시글 수정 API
+    updatePost: builder.mutation({
+      query: ({ id, title, content }) => ({
+        url: `/api/board/${id}`,
+        method: 'PUT',
+        body: { title, content },
+      }),
+    }),
+
+    // 글 목록 조회 API
+    getPostList: builder.query({
+      query: (id = 1) => `/api/board/${id}/list`,
+    }),
+
+    // 좋아요
+    likePost: builder.mutation({
+      query: (id) => ({
+        url: `/api/board/${id}/like`,
+        method: 'POST',
+      }),
+    }),
+
+    // 태그 추가
+    addTagsToPost: builder.mutation({
+      query: ({ id, tags }) => ({
+        url: `/api/board/${id}/tags`,
+        method: 'POST',
+        body: tags, // ✅ 백엔드에서 List<String>으로 받으므로 배열만 전송
+      }),
+    }),
+
+    // 태그 검색
+    getPostsByTag: builder.query({
+      query: (tagName) => `/api/board/tags?name=${encodeURIComponent(tagName)}`,
+    }),
   }),
 });
 
-export const { useGetAdminQuery, useGetIsLoggedInQuery } = protectedApi;
+export const {
+  useGetAdminQuery,
+  useGetIsLoggedInQuery,
+  useCreatePostMutation,
+  useGetPostByIdQuery,
+  useDeletePostMutation,
+  useUpdatePostMutation,
+  useGetPostListQuery,
+  useLikePostMutation,
+  useAddTagsToPostMutation,
+  useGetPostsByTagQuery,
+} = protectedApi;
